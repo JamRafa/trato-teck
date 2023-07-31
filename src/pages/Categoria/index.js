@@ -1,11 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./categoria.module.scss";
 import Header from "../../Components/Header";
 import Item from "../../Components/item";
 import Button from "../../Components/Button";
+import { useEffect } from "react";
+import { carregarUmaCategoria } from "../../store/reducers/categorias";
 
 export default function Categoria() {
+  const dispatch = useDispatch()
   const { nomeCategoria } = useParams();
   const nav = useNavigate();
   const { categoria, itens } = useSelector((state) => {
@@ -20,6 +23,12 @@ export default function Categoria() {
       ),
     };
   });
+
+
+  useEffect(()=> {
+    dispatch(carregarUmaCategoria(nomeCategoria))
+  }, [dispatch, nomeCategoria])
+
 
   return (
     <div>

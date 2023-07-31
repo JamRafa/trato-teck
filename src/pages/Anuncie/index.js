@@ -6,6 +6,11 @@ import { useForm } from "react-hook-form";
 import { cadastarItem } from "../../store/reducers/itens";
 import { useParams } from "react-router-dom";
 import Input from "../../Components/Input";
+import { useEffect } from "react";
+import {
+  carregarCategorias,
+  carregarUmaCategoria,
+} from "../../store/reducers/categorias";
 
 export default function Anuncie() {
   const dispatch = useDispatch();
@@ -26,6 +31,12 @@ export default function Anuncie() {
   function cadastrar(data) {
     dispatch(cadastarItem(data));
   }
+
+  useEffect(() => {
+    dispatch(
+      nomeCategoria ? carregarUmaCategoria(nomeCategoria) : carregarCategorias()
+    );
+  }, [dispatch, nomeCategoria]);
 
   return (
     <div className={styles.container}>

@@ -4,13 +4,8 @@ import relogio from "./../../assets/inicial.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../Components/Button";
-import { useCallback, useEffect } from "react";
-import instance from "../../Common/config/api";
-import {
-  adicionarCategorias,
-  buscarCategorias,
-} from "../../store/reducers/categorias";
-import { adicionarItens, buscarItens } from "../../store/reducers/itens";
+import { useEffect } from "react";
+import { carregarCategorias } from "../../store/reducers/categorias";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -18,8 +13,7 @@ export default function Home() {
   const categorias = useSelector((state) => state.categorias);
 
   useEffect(() => {
-    dispatch(buscarCategorias());
-    dispatch(buscarItens());
+    dispatch(carregarCategorias());
   }, [dispatch]);
 
   return (

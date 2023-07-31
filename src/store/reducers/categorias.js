@@ -7,7 +7,8 @@ const { toast } = createStandaloneToast();
 
 const initialState = [];
 
-//export const carregarCategorias = createAction("categorias/carregarCategorias");
+export const carregarCategorias = createAction("categorias/carregarCategorias");
+export const carregarUmaCategoria = createAction("categoria/carregarUmaCategoria")
 
 export const buscarCategorias = createAsyncThunk(
   "categorias/buscar",
@@ -17,36 +18,16 @@ export const buscarCategorias = createAsyncThunk(
 const categoriasSlice = createSlice({
   name: "categorias",
   initialState,
+  reducers: {
+    adicionarTodasCategorias: (state, { payload }) => {
+      return payload
+    },
+    adicionarUmaCategoria: (state, {payload}) => {
+      state.push(payload)
+    }
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(buscarCategorias.fulfilled, (state, { payload }) => {
-        toast({
-          title: "sucsses",
-          status: "success",
-          description: "categorias carregadas",
-          duration: 2000,
-          isClosable: true,
-        });
-        return payload;
-      })
-      .addCase(buscarCategorias.pending, (state, { payload }) => {
-        toast({
-          title: "carregando",
-          status: "loading",
-          description: "categorias carregando ...",
-          duration: 2000,
-          isClosable: true,
-        });
-      })
-      .addCase(buscarCategorias.rejected, (state, { payload }) => {
-        toast({
-          title: "erro",
-          status: "error",
-          description: "erro na busca",
-          duration: 2000,
-          isClosable: true,
-        });
-      })
       .addCase(restarCarrinho.type, () => {
         toast({
           title: "sucsses",
@@ -58,5 +39,7 @@ const categoriasSlice = createSlice({
       });
   },
 });
+
+export const { adicionarTodasCategorias, adicionarUmaCategoria } = categoriasSlice.actions
 
 export default categoriasSlice.reducer;

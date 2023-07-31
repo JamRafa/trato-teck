@@ -30,32 +30,26 @@ const itensSlice = createSlice({
       const index = state.findIndex((item) => item.id === payload.id);
       state.splice(index, 1);
       // return state.filter(item => item.id !== payload)
-    }
+    },
+    adicionarItens: (state, { payload }) => {
+      state.push(...payload);
+    },
   },
   extraReducers: (builder) => {
     builder
-    .addCase(buscarItens.fulfilled, (state, { payload }) => {
-      console.log('aqui')
-      return payload;
-    })
-    .addCase(
-      buscarItens.pending, (state, {payload}) => {
-        console.log("carregando itens")
-      }
-    )
-    .addCase(
-      buscarItens.rejected,
-      (state, {payload}) => {
-        console.log('busca rejeitada')
-      }
-    )
+      .addCase(buscarItens.fulfilled, (state, { payload }) => {
+        console.log("aqui");
+        return payload;
+      })
+      .addCase(buscarItens.pending, (state, { payload }) => {
+        console.log("carregando itens");
+      })
+      .addCase(buscarItens.rejected, (state, { payload }) => {
+        console.log("busca rejeitada");
+      });
   },
 });
 
-export const {
-  mudarFavorito,
-  cadastarItem,
-  mudarItem,
-  deletarItem,
-} = itensSlice.actions;
+export const { mudarFavorito, cadastarItem, mudarItem, deletarItem, adicionarItens } =
+  itensSlice.actions;
 export default itensSlice.reducer;
