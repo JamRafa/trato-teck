@@ -1,19 +1,19 @@
 import styles from './Carrinho.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Header from '../../Components/Header';
 import Item from '../../Components/item';
-import { restarCarrinho } from '../../store/reducers/carrinho';
 import Button from '../../Components/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Carrinho() {
-    const dispatch = useDispatch()
+    const nav = useNavigate()
+
     const { carrinho, total } = useSelector(state => {
         let total = 0
         const regexp = new RegExp(state.busca, 'i')
-        const carrinhoReduce = state.carrinho.reduce((itens, itemNoCarrinho) => {
+        const carrinhoReduce = state.carrinho.data.reduce((itens, itemNoCarrinho) => {
             const item = state.itens.find(item => item.id === itemNoCarrinho.id);
-            total += (item.preco * itemNoCarrinho.quantidade)
             if (item.titulo.match(regexp)) {
                 itens.push({
                     ...item,
@@ -24,7 +24,7 @@ export default function Carrinho() {
         }, []);
         return {
             carrinho: carrinhoReduce,
-            total: total
+            total: state.carrinho.total
         }
 
     });
@@ -45,9 +45,9 @@ export default function Carrinho() {
                     </span>
                 </div>
 
-                <Button onClick={() => dispatch(restarCarrinho())}>
+                <Button onClick={() => nav('/pagamento')}>
                     Finalizar compra
-                </Button> 
+                </Button>
             </div>
         </div>
     )
